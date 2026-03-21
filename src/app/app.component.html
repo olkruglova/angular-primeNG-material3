@@ -1,0 +1,67 @@
+<!-- Material Web top app bar (custom element) -->
+<header class="top-app-bar">
+  <md-icon>layers</md-icon>
+  <span class="top-app-bar__title">{{ title }}</span>
+</header>
+
+<main class="page-content">
+
+  <!-- Material Web Section -->
+  <section class="section">
+    <h2 class="section-title">Material Web (Google M3)</h2>
+
+    <div class="card">
+      <h3 class="card-title">Buttons</h3>
+      <div class="row">
+        <md-filled-button>Filled</md-filled-button>
+        <md-outlined-button>Outlined</md-outlined-button>
+        <md-text-button>Text</md-text-button>
+        <md-filled-tonal-button>Tonal</md-filled-tonal-button>
+      </div>
+
+      <h3 class="card-title">FAB</h3>
+      <div class="row">
+        <md-fab label="Create">
+          <md-icon slot="icon">add</md-icon>
+        </md-fab>
+        <md-fab size="small">
+          <md-icon slot="icon">edit</md-icon>
+        </md-fab>
+      </div>
+
+      <h3 class="card-title">Chips</h3>
+      <md-chip-set>
+        <md-assist-chip label="Angular"></md-assist-chip>
+        <md-assist-chip label="Material Web"></md-assist-chip>
+        <md-assist-chip label="M3"></md-assist-chip>
+      </md-chip-set>
+    </div>
+  </section>
+
+  <md-divider></md-divider>
+
+  <!-- PrimeNG Section -->
+  <section class="section">
+    <h2 class="section-title">PrimeNG (Aura Theme)</h2>
+
+    <p-card header="PrimeNG Card" subheader="Using the Aura preset theme">
+      <div class="row">
+        <p-button label="Primary" />
+        <p-button label="Secondary" severity="secondary" />
+        <p-button label="Success" severity="success" />
+        <p-button label="Danger" severity="danger" />
+        <p-button icon="pi pi-check" rounded />
+      </div>
+
+      <div class="tag-row">
+        <p-tag value="Angular" />
+        <p-tag value="PrimeNG" severity="success" />
+        <p-tag value="Aura" severity="info" />
+        <p-tag value="Standalone" severity="warn" />
+      </div>
+    </p-card>
+  </section>
+
+</main>
+
+<router-outlet />
