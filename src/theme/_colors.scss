@@ -1,0 +1,43 @@
+// ─── Color aliases ────────────────────────────────────────────────────────────
+// Short --color-* custom properties pointing to M3 system tokens.
+// Imported once in styles.scss; available globally via CSS cascade.
+
+:root {
+  // Primary
+  --color-primary:              var(--md-sys-color-primary);
+  --color-on-primary:           var(--md-sys-color-on-primary);
+  --color-primary-container:    var(--md-sys-color-primary-container);
+  --color-on-primary-container: var(--md-sys-color-on-primary-container);
+
+  // Secondary
+  --color-secondary:              var(--md-sys-color-secondary);
+  --color-on-secondary:           var(--md-sys-color-on-secondary);
+  --color-secondary-container:    var(--md-sys-color-secondary-container);
+  --color-on-secondary-container: var(--md-sys-color-on-secondary-container);
+
+  // Tertiary
+  --color-tertiary:              var(--md-sys-color-tertiary);
+  --color-on-tertiary:           var(--md-sys-color-on-tertiary);
+  --color-tertiary-container:    var(--md-sys-color-tertiary-container);
+  --color-on-tertiary-container: var(--md-sys-color-on-tertiary-container);
+
+  // Error
+  --color-error:              var(--md-sys-color-error);
+  --color-on-error:           var(--md-sys-color-on-error);
+  --color-error-container:    var(--md-sys-color-error-container);
+  --color-on-error-container: var(--md-sys-color-on-error-container);
+
+  // Surface
+  --color-surface:            var(--md-sys-color-surface);
+  --color-on-surface:         var(--md-sys-color-on-surface);
+  --color-surface-container:  var(--md-sys-color-surface-container);
+  --color-surface-variant:    var(--md-sys-color-surface-variant);
+  --color-on-surface-variant: var(--md-sys-color-on-surface-variant);
+
+  // Background
+  --color-bg:    var(--md-sys-color-background);
+  --color-on-bg: var(--md-sys-color-on-background);
+
+  // Outline
+  --color-outline: var(--md-sys-color-outline);
+}

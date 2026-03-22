@@ -1,39 +1,139 @@
+// ─── @use rules (must come first) ────────────────────────────────────────────
+@use '@material/web/color/color';
+@use '@material/web/typography/typeface';
+@use '@material/web/typography/typescale';
+@use '@material/web/tokens';
+@use './theme/fonts' as fonts;
+@use './theme/colors';
+@use './theme/shape';
+
 // PrimeNG icons
 @import 'primeicons/primeicons.css';
 
-// M3 custom theme tokens (override defaults)
+// ─── M3 system tokens ────────────────────────────────────────────────────────
 :root {
-  --md-sys-color-primary: #6750a4;
-  --md-sys-color-on-primary: #ffffff;
-  --md-sys-color-primary-container: #eaddff;
-  --md-sys-color-on-primary-container: #21005d;
-  --md-sys-color-secondary: #625b71;
-  --md-sys-color-on-secondary: #ffffff;
-  --md-sys-color-secondary-container: #e8def8;
-  --md-sys-color-on-secondary-container: #1d192b;
-  --md-sys-color-tertiary: #7d5260;
-  --md-sys-color-on-tertiary: #ffffff;
-  --md-sys-color-tertiary-container: #ffd8e4;
-  --md-sys-color-on-tertiary-container: #31111d;
-  --md-sys-color-background: #fffbfe;
-  --md-sys-color-on-background: #1c1b1f;
-  --md-sys-color-surface: #fffbfe;
-  --md-sys-color-on-surface: #1c1b1f;
-  --md-sys-color-surface-variant: #e7e0ec;
-  --md-sys-color-on-surface-variant: #49454f;
-  --md-sys-color-outline: #79747e;
+  @include color.light-theme();
 
-  --md-sys-typescale-body-large-font: 'Roboto', sans-serif;
-  --md-sys-typescale-headline-large-font: 'Roboto', sans-serif;
+  @include typeface.theme((
+    'brand': 'Roboto',
+    'plain': 'Roboto',
+  ));
+
+  @include typescale.theme(tokens.md-sys-typescale-values());
+
+  --md-sys-shape-corner-none:        0px;
+  --md-sys-shape-corner-extra-small: 4px;
+  --md-sys-shape-corner-small:       8px;
+  --md-sys-shape-corner-medium:      12px;
+  --md-sys-shape-corner-large:       16px;
+  --md-sys-shape-corner-extra-large: 28px;
+  --md-sys-shape-corner-full:        9999px;
 }
 
+.dark-mode {
+  @include color.dark-theme();
+}
+
+// ─── Base styles ─────────────────────────────────────────────────────────────
 * {
   box-sizing: border-box;
 }
 
 body {
   margin: 0;
-  font-family: 'Roboto', sans-serif;
-  background-color: var(--md-sys-color-background);
-  color: var(--md-sys-color-on-background);
+  @include fonts.body-lg;
+  background-color: var(--color-bg);
+  color: var(--color-on-bg);
+}
+
+// ─── PrimeNG component tokens ─────────────────────────────────────────────────
+.p-button {
+  border-radius: var(--radius-full);
+  @include fonts.label-lg;
+  letter-spacing: 0.00625em;
+  transition: box-shadow 0.2s, background 0.2s;
+
+  &:not(.p-button-secondary):not(.p-button-success):not(.p-button-danger):not(.p-button-outlined):not(.p-button-text) {
+    background: var(--color-primary);
+    color: var(--color-on-primary);
+    border-color: transparent;
+
+    &:hover  { background: color-mix(in srgb, var(--color-primary) 92%, #000); }
+    &:active { background: color-mix(in srgb, var(--color-primary) 88%, #000); }
+  }
+
+  &.p-button-secondary {
+    background: transparent;
+    color: var(--color-primary);
+    border: 1px solid var(--color-outline);
+
+    &:hover  { background: color-mix(in srgb, var(--color-primary) 8%, transparent); }
+    &:active { background: color-mix(in srgb, var(--color-primary) 12%, transparent); }
+  }
+
+  &.p-button-success {
+    background: var(--color-tertiary-container);
+    color: var(--color-on-tertiary-container);
+    border-color: transparent;
+
+    &:hover  { background: color-mix(in srgb, var(--color-tertiary-container) 92%, #000); }
+    &:active { background: color-mix(in srgb, var(--color-tertiary-container) 88%, #000); }
+  }
+
+  &.p-button-danger {
+    background: var(--color-error);
+    color: var(--color-on-error);
+    border-color: transparent;
+
+    &:hover  { background: color-mix(in srgb, var(--color-error) 92%, #000); }
+    &:active { background: color-mix(in srgb, var(--color-error) 88%, #000); }
+  }
+}
+
+.p-card {
+  background: var(--color-surface-container);
+  color: var(--color-on-surface);
+  border-radius: var(--radius-md);
+  box-shadow: none;
+  border: none;
+
+  .p-card-title {
+    @include fonts.title-md;
+    color: var(--color-on-surface);
+  }
+
+  .p-card-subtitle {
+    @include fonts.body-md;
+    color: var(--color-on-surface-variant);
+  }
+}
+
+.p-tag {
+  border-radius: var(--radius-sm);
+  @include fonts.label-md;
+
+  &:not(.p-tag-success):not(.p-tag-info):not(.p-tag-warning):not(.p-tag-danger) {
+    background: var(--color-secondary-container);
+    color: var(--color-on-secondary-container);
+  }
+
+  &.p-tag-success {
+    background: var(--color-tertiary-container);
+    color: var(--color-on-tertiary-container);
+  }
+
+  &.p-tag-info {
+    background: var(--color-primary-container);
+    color: var(--color-on-primary-container);
+  }
+
+  &.p-tag-warning {
+    background: var(--color-secondary-container);
+    color: var(--color-on-secondary-container);
+  }
+
+  &.p-tag-danger {
+    background: var(--color-error-container);
+    color: var(--color-on-error-container);
+  }
 }

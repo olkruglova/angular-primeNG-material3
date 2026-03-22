@@ -1,17 +1,17 @@
+@use '../theme/fonts' as fonts;
+
 .top-app-bar {
   display: flex;
   align-items: center;
   gap: 12px;
   padding: 0 16px;
   height: 64px;
-  background-color: var(--md-sys-color-surface);
-  color: var(--md-sys-color-on-surface);
+  background-color: var(--color-surface);
+  color: var(--color-on-surface);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
 
   &__title {
-    font-size: 1.375rem;
-    font-weight: 400;
-    letter-spacing: 0;
+    @include fonts.title-lg;
   }
 }
 
@@ -26,23 +26,21 @@
 }
 
 .section-title {
-  font-size: 1.25rem;
-  font-weight: 500;
+  @include fonts.headline-sm;
   margin-bottom: 16px;
-  color: var(--md-sys-color-on-surface);
+  color: var(--color-on-surface);
 }
 
 .card {
-  background: var(--md-sys-color-surface-variant);
-  border-radius: 12px;
+  background: var(--color-surface-container);
+  border-radius: var(--radius-md);
   padding: 24px;
 }
 
 .card-title {
-  font-size: 1rem;
-  font-weight: 500;
+  @include fonts.title-md;
   margin: 16px 0 8px;
-  color: var(--md-sys-color-on-surface-variant);
+  color: var(--color-on-surface-variant);
 
   &:first-child {
     margin-top: 0;
