@@ -1,0 +1,9 @@
+<div class="demo-box">
+  <p>Injected: <code>{{ logger.constructor.name }}</code> (via <code>AbstractLogger</code> token)</p>
+  <button (click)="send()">Send message</button>
+  <ul>
+    @for (msg of logger.messages; track msg) {
+      <li>{{ msg }}</li>
+    }
+  </ul>
+</div>

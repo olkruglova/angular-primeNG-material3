@@ -1,0 +1,29 @@
+.row {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.injector-box {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-outline);
+
+  .label {
+    font-weight: 600;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  em {
+    font-size: 0.75rem;
+    color: var(--color-on-surface-variant);
+  }
+
+  &.self  { border-color: var(--color-primary); }
+  &.skip  { border-color: var(--color-tertiary); }
+}

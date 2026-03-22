@@ -1,0 +1,185 @@
+<div class="page">
+  <h1 class="page-title">Dependency Injection — all cases</h1>
+
+  <!-- ── Case 1: providedIn: 'root' + inject() ─────────────────────────── -->
+  <section class="di-case">
+    <h2>1. <code>providedIn: 'root'</code> + <code>inject()</code></h2>
+    <p class="tip">
+      <strong>Interview:</strong> Registers the service in the root injector — one singleton for the whole app.
+      Tree-shakeable: if nothing injects it, Angular removes it from the bundle.
+      <code>inject()</code> is the modern API (Angular 14+); works in components, guards, resolvers,
+      and plain functions — no constructor needed.
+    </p>
+    <div class="demo">
+      <p>Instance ID (same everywhere in the app): <code>{{ rootLogger.instanceId }}</code></p>
+    </div>
+  </section>
+
+  <!-- ── Case 2: constructor injection ─────────────────────────────────── -->
+  <section class="di-case">
+    <h2>2. Constructor injection</h2>
+    <p class="tip">
+      <strong>Interview:</strong> The classic Angular DI syntax. Angular reads the constructor
+      parameter types at runtime and resolves them. Still valid — useful when you want dependencies
+      to be explicit and visible at a glance. <code>inject()</code> is preferred for new code.
+    </p>
+    <div class="demo">
+      <p>RemoteConfigService injected via constructor: <code>{{ remoteConfig.constructor.name }}</code></p>
+    </div>
+  </section>
+
+  <!-- ── Case 3: component-scoped provider ─────────────────────────────── -->
+  <section class="di-case">
+    <h2>3. Component-scoped provider</h2>
+    <p class="tip">
+      <strong>Interview:</strong> List the service in the component's <code>providers: []</code>.
+      Each component instance gets its own service instance, isolated from siblings.
+      Destroyed when the component is destroyed. Use for per-form, per-modal, per-widget state.
+    </p>
+    <div class="demo">
+      <p>Parent counter (shared with children that don't re-declare): <code>#{{ scopedCounter.instanceId }}</code></p>
+      <p>Two child components — each gets its own independent CounterService:</p>
+      <div class="row">
+        <app-scoped-counter />
+        <app-scoped-counter />
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Case 4: InjectionToken + useValue ─────────────────────────────── -->
+  <section class="di-case">
+    <h2>4. <code>InjectionToken</code> + <code>useValue</code></h2>
+    <p class="tip">
+      <strong>Interview:</strong> Inject non-class values (config objects, feature flags, API URLs)
+      in a type-safe way. The generic on <code>InjectionToken&lt;T&gt;</code> ensures the consumer
+      gets the correct type. No class needed — any value works.
+    </p>
+    <div class="demo">
+      <p>apiUrl: <code>{{ config.apiUrl }}</code></p>
+      <p>darkMode: <code>{{ config.featureFlags.darkMode }}</code></p>
+      <p>analytics: <code>{{ config.featureFlags.analytics }}</code></p>
+    </div>
+  </section>
+
+  <!-- ── Case 5: useClass ───────────────────────────────────────────────── -->
+  <section class="di-case">
+    <h2>5. <code>useClass</code> — swap implementations</h2>
+    <p class="tip">
+      <strong>Interview:</strong> Provide a different class for a token without changing any consumer.
+      Angular creates a NEW instance of the replacement class. Common uses: swap real service for
+      a mock in tests, or swap implementations based on environment / feature flag.
+    </p>
+    <div class="demo">
+      <p>Parent provides: <code>{{ "{" }} provide: AbstractLogger, useClass: ConsoleLoggerService {{ "}" }}</code></p>
+      <p>Child overrides: <code>{{ "{" }} provide: AbstractLogger, useClass: SilentLoggerService {{ "}" }}</code></p>
+      <app-use-class-demo />
+    </div>
+  </section>
+
+  <!-- ── Case 6: useFactory ─────────────────────────────────────────────── -->
+  <section class="di-case">
+    <h2>6. <code>useFactory</code></h2>
+    <p class="tip">
+      <strong>Interview:</strong> Use when the provided value depends on other injected services
+      or runtime conditions. The factory function receives the resolved <code>deps</code> as arguments.
+      Angular calls the factory once and caches the result (within the injector scope).
+    </p>
+    <div class="demo">
+      <p>GreeterService built by factory using AppConfig.apiUrl:</p>
+      <p><code>{{ greeter.greet() }}</code></p>
+    </div>
+  </section>
+
+  <!-- ── Case 7: useExisting ────────────────────────────────────────────── -->
+  <section class="di-case">
+    <h2>7. <code>useExisting</code> — alias / interface pattern</h2>
+    <p class="tip">
+      <strong>Interview:</strong> Makes two tokens point to the same existing instance — no new
+      object is created. Classic use: components depend on an abstract class token; the concrete
+      service is registered under both. Unlike <code>useClass</code>, which creates a fresh instance,
+      <code>useExisting</code> reuses whatever is already in the injector.
+    </p>
+    <div class="demo">
+      <p>AbstractLogger === ConsoleLoggerService? <code>{{ sameInstance }}</code></p>
+      <p>AbstractLogger instance ID: <code>{{ abstractLogger.constructor.name }}#{{ $any(abstractLogger).instanceId }}</code></p>
+      <button (click)="logViaAbstract()">Log via AbstractLogger token</button>
+      <ul>
+        @for (msg of abstractLogger.messages; track msg) {
+          <li>{{ msg }}</li>
+        }
+      </ul>
+    </div>
+  </section>
+
+  <!-- ── Case 8: multi: true ────────────────────────────────────────────── -->
+  <section class="di-case">
+    <h2>8. <code>multi: true</code></h2>
+    <p class="tip">
+      <strong>Interview:</strong> Multiple providers contribute values to a single token — Angular
+      collects them all into an array. This is how Angular's own
+      <code>HTTP_INTERCEPTORS</code> and <code>APP_INITIALIZER</code> work internally.
+      Each <code>&#123; provide: TOKEN, useValue: ..., multi: true &#125;</code> appends one entry.
+    </p>
+    <div class="demo">
+      <p>Registered handlers ({{ logHandlers.length }}):</p>
+      <ul>
+        @for (h of logHandlers; track h.name) {
+          <li><code>{{ h.name }}</code></li>
+        }
+      </ul>
+      <button (click)="sendToAll()">Send to all handlers (check console)</button>
+    </div>
+  </section>
+
+  <!-- ── Case 9: @Optional ──────────────────────────────────────────────── -->
+  <section class="di-case">
+    <h2>9. <code>&#64;Optional</code> / <code>inject(T, &#123; optional: true &#125;)</code></h2>
+    <p class="tip">
+      <strong>Interview:</strong> If no provider exists for the token, Angular normally throws.
+      <code>optional: true</code> returns <code>null</code> instead — graceful degradation.
+      Use for optional features: analytics, crash reporting, feature toggles that may not be
+      configured in all environments.
+    </p>
+    <div class="demo">
+      <p>NEVER_PROVIDED token (no provider registered):</p>
+      <p><code>{{ neverProvided === null ? 'null — gracefully not found ✓' : neverProvided }}</code></p>
+    </div>
+  </section>
+
+  <!-- ── Case 10: @Self / @SkipSelf ─────────────────────────────────────── -->
+  <section class="di-case">
+    <h2>10. <code>&#64;Self</code> / <code>&#64;SkipSelf</code></h2>
+    <p class="tip">
+      <strong>Interview:</strong> Control which injector in the tree Angular searches.
+      <code>&#64;Self</code> — only look in my own injector (throw if not there).
+      <code>&#64;SkipSelf</code> — skip my injector, start from the parent.
+      Common in directives/services that need to distinguish their own instance from an ancestor's.
+    </p>
+    <div class="demo">
+      <p>Parent CounterService instance ID: <code>#{{ scopedCounter.instanceId }}</code></p>
+      <p>Child component — compare its own vs parent's injector:</p>
+      <!-- SkipSelfChildComponent has providers: [CounterService] so it has its own instance -->
+      <app-skip-self-child />
+    </div>
+  </section>
+
+  <!-- ── Case 11: APP_INITIALIZER ───────────────────────────────────────── -->
+  <section class="di-case">
+    <h2>11. <code>APP_INITIALIZER</code></h2>
+    <p class="tip">
+      <strong>Interview:</strong> A multi-provider token. Each factory function it registers
+      runs before Angular renders the app. If it returns a Promise or Observable, Angular waits
+      for it to complete. Use for: loading remote config, verifying auth tokens, preloading
+      lookup data. Registered in <code>app.config.ts</code>.
+    </p>
+    <div class="demo">
+      <p>Config loaded before app rendered (RemoteConfigService.load()):</p>
+      <ul>
+        @for (entry of remoteConfigData | keyvalue; track entry.key) {
+          <li><code>{{ entry.key }}</code>: {{ entry.value }}</li>
+        }
+      </ul>
+    </div>
+  </section>
+
+</div>

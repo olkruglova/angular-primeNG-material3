@@ -1,5 +1,5 @@
 import { Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { RouterOutlet, RouterLink } from '@angular/router';
 
 // Material Web — import side-effectful JS to register the custom elements
 import '@material/web/button/filled-button.js';
@@ -19,7 +19,7 @@ import { TagModule } from 'primeng/tag';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, ButtonModule, CardModule, TagModule],
+  imports: [RouterOutlet, RouterLink, ButtonModule, CardModule, TagModule],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
