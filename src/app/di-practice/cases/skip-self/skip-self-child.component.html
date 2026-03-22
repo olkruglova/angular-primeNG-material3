@@ -1,0 +1,12 @@
+<div class="row">
+  <div class="injector-box self">
+    <span class="label">&#64;Self</span>
+    <code>instance #{{ selfCounter.instanceId }}</code>
+    <em>(child's own injector)</em>
+  </div>
+  <div class="injector-box skip">
+    <span class="label">&#64;SkipSelf</span>
+    <code>instance #{{ parentCounter.instanceId }}</code>
+    <em>(walked up to parent injector)</em>
+  </div>
+</div>

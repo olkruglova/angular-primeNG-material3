@@ -1,0 +1,24 @@
+.scoped-box {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 12px;
+  background: var(--color-surface-variant);
+  border-radius: var(--radius-sm);
+
+  .count {
+    font-size: 1.25rem;
+    font-weight: 600;
+    min-width: 24px;
+    color: var(--color-primary);
+  }
+
+  button {
+    padding: 4px 12px;
+    border: 1px solid var(--color-outline);
+    border-radius: var(--radius-sm);
+    background: var(--color-primary);
+    color: var(--color-on-primary);
+    cursor: pointer;
+  }
+}
