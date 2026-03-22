@@ -1,0 +1,53 @@
+// ─── Typography mixins ────────────────────────────────────────────────────────
+// Each mixin outputs font-family, font-size, line-height, font-weight for one
+// M3 typescale role. Use with: @use 'src/theme/fonts' as fonts;
+//                              @include fonts.title-lg;
+
+@mixin body-lg {
+  font-family:   var(--md-sys-typescale-body-large-font);
+  font-size:     var(--md-sys-typescale-body-large-size);
+  line-height:   var(--md-sys-typescale-body-large-line-height);
+  font-weight:   var(--md-sys-typescale-body-large-weight);
+}
+
+@mixin body-md {
+  font-family:   var(--md-sys-typescale-body-medium-font);
+  font-size:     var(--md-sys-typescale-body-medium-size);
+  line-height:   var(--md-sys-typescale-body-medium-line-height);
+  font-weight:   var(--md-sys-typescale-body-medium-weight);
+}
+
+@mixin title-lg {
+  font-family:   var(--md-sys-typescale-title-large-font);
+  font-size:     var(--md-sys-typescale-title-large-size);
+  line-height:   var(--md-sys-typescale-title-large-line-height);
+  font-weight:   var(--md-sys-typescale-title-large-weight);
+}
+
+@mixin title-md {
+  font-family:   var(--md-sys-typescale-title-medium-font);
+  font-size:     var(--md-sys-typescale-title-medium-size);
+  line-height:   var(--md-sys-typescale-title-medium-line-height);
+  font-weight:   var(--md-sys-typescale-title-medium-weight);
+}
+
+@mixin headline-sm {
+  font-family:   var(--md-sys-typescale-headline-small-font);
+  font-size:     var(--md-sys-typescale-headline-small-size);
+  line-height:   var(--md-sys-typescale-headline-small-line-height);
+  font-weight:   var(--md-sys-typescale-headline-small-weight);
+}
+
+@mixin label-lg {
+  font-family:   var(--md-sys-typescale-label-large-font);
+  font-size:     var(--md-sys-typescale-label-large-size);
+  line-height:   var(--md-sys-typescale-label-large-line-height);
+  font-weight:   var(--md-sys-typescale-label-large-weight);
+}
+
+@mixin label-md {
+  font-family:   var(--md-sys-typescale-label-medium-font);
+  font-size:     var(--md-sys-typescale-label-medium-size);
+  line-height:   var(--md-sys-typescale-label-medium-line-height);
+  font-weight:   var(--md-sys-typescale-label-medium-weight);
+}

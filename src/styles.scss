@@ -1,30 +1,26 @@
-// ─── @material/web SCSS mixins ───────────────────────────────────────────────
-// These emit all --md-sys-color-*, --md-ref-typeface-*, --md-sys-typescale-*
-// custom properties using the official M3 token definitions from the package.
-// @use must come before any @import
+// ─── @use rules (must come first) ────────────────────────────────────────────
 @use '@material/web/color/color';
 @use '@material/web/typography/typeface';
 @use '@material/web/typography/typescale';
 @use '@material/web/tokens';
+@use './theme/fonts' as fonts;
+@use './theme/colors';
+@use './theme/shape';
 
 // PrimeNG icons
 @import 'primeicons/primeicons.css';
 
-// ─── Tier 2: System Tokens — Light Theme ─────────────────────────────────────
+// ─── M3 system tokens ────────────────────────────────────────────────────────
 :root {
-  // Color — emits all --md-sys-color-* for the default M3 baseline palette
   @include color.light-theme();
 
-  // Typeface — emits --md-ref-typeface-brand/plain/weight-*
   @include typeface.theme((
     'brand': 'Roboto',
     'plain': 'Roboto',
   ));
 
-  // Typescale — emits all --md-sys-typescale-* referencing --md-ref-typeface-*
   @include typescale.theme(tokens.md-sys-typescale-values());
 
-  // Shape — no mixin in the package, but only 7 values (M3 corner radius scale)
   --md-sys-shape-corner-none:        0px;
   --md-sys-shape-corner-extra-small: 4px;
   --md-sys-shape-corner-small:       8px;
@@ -34,131 +30,110 @@
   --md-sys-shape-corner-full:        9999px;
 }
 
-// Dark theme — only Tier 2 color tokens change; shape/typescale are unchanged
-// Toggled by adding .dark-mode class to <html>
 .dark-mode {
   @include color.dark-theme();
 }
 
+// ─── Base styles ─────────────────────────────────────────────────────────────
 * {
   box-sizing: border-box;
 }
 
 body {
   margin: 0;
-  font-family: var(--md-sys-typescale-body-large-font);
-  font-size: var(--md-sys-typescale-body-large-size);
-  line-height: var(--md-sys-typescale-body-large-line-height);
-  background-color: var(--md-sys-color-background);
-  color: var(--md-sys-color-on-background);
+  @include fonts.body-lg;
+  background-color: var(--color-bg);
+  color: var(--color-on-bg);
 }
 
-// ─── Tier 3: PrimeNG component tokens ────────────────────────────────────────
-// Map PrimeNG Aura styles to M3 system tokens (color + shape + typescale).
-
+// ─── PrimeNG component tokens ─────────────────────────────────────────────────
 .p-button {
-  border-radius: var(--md-sys-shape-corner-full);
-  font-family: var(--md-sys-typescale-label-large-font);
-  font-size: var(--md-sys-typescale-label-large-size);
-  line-height: var(--md-sys-typescale-label-large-line-height);
-  font-weight: var(--md-sys-typescale-label-large-weight);
+  border-radius: var(--radius-full);
+  @include fonts.label-lg;
   letter-spacing: 0.00625em;
   transition: box-shadow 0.2s, background 0.2s;
 
-  // Default → M3 Filled Button
   &:not(.p-button-secondary):not(.p-button-success):not(.p-button-danger):not(.p-button-outlined):not(.p-button-text) {
-    background: var(--md-sys-color-primary);
-    color: var(--md-sys-color-on-primary);
+    background: var(--color-primary);
+    color: var(--color-on-primary);
     border-color: transparent;
 
-    &:hover  { background: color-mix(in srgb, var(--md-sys-color-primary) 92%, #000); }
-    &:active { background: color-mix(in srgb, var(--md-sys-color-primary) 88%, #000); }
+    &:hover  { background: color-mix(in srgb, var(--color-primary) 92%, #000); }
+    &:active { background: color-mix(in srgb, var(--color-primary) 88%, #000); }
   }
 
-  // Secondary → M3 Outlined Button
   &.p-button-secondary {
     background: transparent;
-    color: var(--md-sys-color-primary);
-    border: 1px solid var(--md-sys-color-outline);
+    color: var(--color-primary);
+    border: 1px solid var(--color-outline);
 
-    &:hover  { background: color-mix(in srgb, var(--md-sys-color-primary) 8%, transparent); }
-    &:active { background: color-mix(in srgb, var(--md-sys-color-primary) 12%, transparent); }
+    &:hover  { background: color-mix(in srgb, var(--color-primary) 8%, transparent); }
+    &:active { background: color-mix(in srgb, var(--color-primary) 12%, transparent); }
   }
 
-  // Success → M3 Tonal Button (tertiary container)
   &.p-button-success {
-    background: var(--md-sys-color-tertiary-container);
-    color: var(--md-sys-color-on-tertiary-container);
+    background: var(--color-tertiary-container);
+    color: var(--color-on-tertiary-container);
     border-color: transparent;
 
-    &:hover  { background: color-mix(in srgb, var(--md-sys-color-tertiary-container) 92%, #000); }
-    &:active { background: color-mix(in srgb, var(--md-sys-color-tertiary-container) 88%, #000); }
+    &:hover  { background: color-mix(in srgb, var(--color-tertiary-container) 92%, #000); }
+    &:active { background: color-mix(in srgb, var(--color-tertiary-container) 88%, #000); }
   }
 
-  // Danger → M3 Error Button
   &.p-button-danger {
-    background: var(--md-sys-color-error);
-    color: var(--md-sys-color-on-error);
+    background: var(--color-error);
+    color: var(--color-on-error);
     border-color: transparent;
 
-    &:hover  { background: color-mix(in srgb, var(--md-sys-color-error) 92%, #000); }
-    &:active { background: color-mix(in srgb, var(--md-sys-color-error) 88%, #000); }
+    &:hover  { background: color-mix(in srgb, var(--color-error) 92%, #000); }
+    &:active { background: color-mix(in srgb, var(--color-error) 88%, #000); }
   }
 }
 
 .p-card {
-  background: var(--md-sys-color-surface-container);
-  color: var(--md-sys-color-on-surface);
-  border-radius: var(--md-sys-shape-corner-medium);
+  background: var(--color-surface-container);
+  color: var(--color-on-surface);
+  border-radius: var(--radius-md);
   box-shadow: none;
   border: none;
 
   .p-card-title {
-    font-family: var(--md-sys-typescale-title-medium-font);
-    font-size: var(--md-sys-typescale-title-medium-size);
-    line-height: var(--md-sys-typescale-title-medium-line-height);
-    font-weight: var(--md-sys-typescale-title-medium-weight);
-    color: var(--md-sys-color-on-surface);
+    @include fonts.title-md;
+    color: var(--color-on-surface);
   }
 
   .p-card-subtitle {
-    font-family: var(--md-sys-typescale-body-medium-font);
-    font-size: var(--md-sys-typescale-body-medium-size);
-    line-height: var(--md-sys-typescale-body-medium-line-height);
-    font-weight: var(--md-sys-typescale-body-medium-weight);
-    color: var(--md-sys-color-on-surface-variant);
+    @include fonts.body-md;
+    color: var(--color-on-surface-variant);
   }
 }
 
 .p-tag {
-  border-radius: var(--md-sys-shape-corner-small);
-  font-family: var(--md-sys-typescale-label-medium-font);
-  font-size: var(--md-sys-typescale-label-medium-size);
-  line-height: var(--md-sys-typescale-label-medium-line-height);
-  font-weight: var(--md-sys-typescale-label-medium-weight);
+  border-radius: var(--radius-sm);
+  @include fonts.label-md;
 
   &:not(.p-tag-success):not(.p-tag-info):not(.p-tag-warning):not(.p-tag-danger) {
-    background: var(--md-sys-color-secondary-container);
-    color: var(--md-sys-color-on-secondary-container);
+    background: var(--color-secondary-container);
+    color: var(--color-on-secondary-container);
   }
 
   &.p-tag-success {
-    background: var(--md-sys-color-tertiary-container);
-    color: var(--md-sys-color-on-tertiary-container);
+    background: var(--color-tertiary-container);
+    color: var(--color-on-tertiary-container);
   }
 
   &.p-tag-info {
-    background: var(--md-sys-color-primary-container);
-    color: var(--md-sys-color-on-primary-container);
+    background: var(--color-primary-container);
+    color: var(--color-on-primary-container);
   }
 
   &.p-tag-warning {
-    background: var(--md-sys-color-secondary-container);
-    color: var(--md-sys-color-on-secondary-container);
+    background: var(--color-secondary-container);
+    color: var(--color-on-secondary-container);
   }
 
   &.p-tag-danger {
-    background: var(--md-sys-color-error-container);
-    color: var(--md-sys-color-on-error-container);
+    background: var(--color-error-container);
+    color: var(--color-on-error-container);
   }
 }

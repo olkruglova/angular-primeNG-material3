@@ -1,18 +1,17 @@
+@use '../theme/fonts' as fonts;
+
 .top-app-bar {
   display: flex;
   align-items: center;
   gap: 12px;
   padding: 0 16px;
   height: 64px;
-  background-color: var(--md-sys-color-surface);
-  color: var(--md-sys-color-on-surface);
+  background-color: var(--color-surface);
+  color: var(--color-on-surface);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
 
   &__title {
-    font-family: var(--md-sys-typescale-title-large-font);
-    font-size: var(--md-sys-typescale-title-large-size);
-    line-height: var(--md-sys-typescale-title-large-line-height);
-    font-weight: var(--md-sys-typescale-title-large-weight);
+    @include fonts.title-lg;
   }
 }
 
@@ -27,27 +26,21 @@
 }
 
 .section-title {
-  font-family: var(--md-sys-typescale-headline-small-font);
-  font-size: var(--md-sys-typescale-headline-small-size);
-  line-height: var(--md-sys-typescale-headline-small-line-height);
-  font-weight: var(--md-sys-typescale-headline-small-weight);
+  @include fonts.headline-sm;
   margin-bottom: 16px;
-  color: var(--md-sys-color-on-surface);
+  color: var(--color-on-surface);
 }
 
 .card {
-  background: var(--md-sys-color-surface-container);
-  border-radius: var(--md-sys-shape-corner-medium);
+  background: var(--color-surface-container);
+  border-radius: var(--radius-md);
   padding: 24px;
 }
 
 .card-title {
-  font-family: var(--md-sys-typescale-title-medium-font);
-  font-size: var(--md-sys-typescale-title-medium-size);
-  line-height: var(--md-sys-typescale-title-medium-line-height);
-  font-weight: var(--md-sys-typescale-title-medium-weight);
+  @include fonts.title-md;
   margin: 16px 0 8px;
-  color: var(--md-sys-color-on-surface-variant);
+  color: var(--color-on-surface-variant);
 
   &:first-child {
     margin-top: 0;
